@@ -40,7 +40,6 @@ const Cart = (): JSX.Element => {
     const updateArgs = {
       productId: product.id,
       amount: product.amount + 1,
-      operation: 'increment'
     }
     updateProductAmount(updateArgs);
   }
@@ -50,7 +49,6 @@ const Cart = (): JSX.Element => {
     const updateArgs = {
       productId: product.id,
       amount: product.amount - 1,
-      operation: 'decrement'
     }
     updateProductAmount(updateArgs);
   }
