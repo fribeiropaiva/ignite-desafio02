@@ -50,11 +50,9 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
       } else {
         const { data: stock } = await api.get(`stock/${productId}`);
-        console.log(stock.amount)
-        console.log(productAlreadyInCart.amount);
-        if (productAlreadyInCart.amount <= stock.amount) {
+        if (productAlreadyInCart.amount < stock.amount) {
           const updatedCart = cart.map(product => {
-            return (product.id === product.id) ? {...product, amount: product.amount + 1} : product;
+            return (product.id === productId) ? {...product, amount: product.amount + 1} : product;
           });
 
           setCart(updatedCart);
