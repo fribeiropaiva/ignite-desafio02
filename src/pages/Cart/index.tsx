@@ -34,11 +34,21 @@ const Cart = (): JSX.Element => {
     )
 
   function handleProductIncrement(product: Product) {
-    // TODO
+    if (product.amount < 0) return;
+    const updateArgs = {
+      productId: product.id,
+      amount: product.amount + 1
+    }
+    updateProductAmount(updateArgs);
   }
 
   function handleProductDecrement(product: Product) {
-    // TODO
+    if (product.amount < 0) return;
+    const updateArgs = {
+      productId: product.id,
+      amount: product.amount - 1
+    }
+    updateProductAmount(updateArgs);
   }
 
   function handleRemoveProduct(productId: number) {
