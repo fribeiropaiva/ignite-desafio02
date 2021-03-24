@@ -9,6 +9,7 @@ import {
 // import { formatPrice } from '../../util/format';
 import { Container, ProductTable, Total } from './styles';
 import { useCart } from '../../hooks/useCart';
+import { formatPrice } from '../../util/format';
 
 interface Product {
   id: number;
@@ -21,15 +22,16 @@ interface Product {
 const Cart = (): JSX.Element => {
   const { cart, removeProduct, updateProductAmount } = useCart();
 
-  // const cartFormatted = cart.map(product => ({
-  //   // TODO
-  // }))
-  // const total =
-  //   formatPrice(
-  //     cart.reduce((sumTotal, product) => {
-  //       // TODO
-  //     }, 0)
-  //   )
+  const cartFormatted = cart.map((product: Product) => {
+    return {...product, priceFormatted: formatPrice(product.price), subtotal: formatPrice(product.price * product.amount)}
+  });
+  const total =
+    formatPrice(
+      cart.reduce((sumTotal:number, product:Product) => {
+        sumTotal += product.price * product.amount;
+        return sumTotal;
+      }, 0)
+    )
 
   function handleProductIncrement(product: Product) {
     // TODO
@@ -56,7 +58,7 @@ const Cart = (): JSX.Element => {
           </tr>
         </thead>
         <tbody>
-          {cart.map(cartItem => (
+          {cartFormatted.map(cartItem => (
             <tr data-testid="product">
               <td>
                 <img src={cartItem.image} alt={cartItem.title} />
@@ -79,7 +81,7 @@ const Cart = (): JSX.Element => {
                     type="text"
                     data-testid="product-amount"
                     readOnly
-                    value={2}
+                    value={cartItem.amount}
                   />
                   <button
                     type="button"
@@ -91,7 +93,7 @@ const Cart = (): JSX.Element => {
                 </div>
               </td>
               <td>
-                <strong>R$ 359,80</strong>
+                <strong>{cartItem.subtotal}</strong>
               </td>
               <td>
                 <button
@@ -112,7 +114,7 @@ const Cart = (): JSX.Element => {
 
         <Total>
           <span>TOTAL</span>
-          <strong>R$ 359,80</strong>
+          <strong>{total}</strong>
         </Total>
       </footer>
     </Container>
